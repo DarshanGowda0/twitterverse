@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:square_in_app_payments/in_app_payments.dart';
 import 'package:square_in_app_payments/models.dart';
+import 'package:twitterverse/screens/webview.dart';
 import 'package:twitterverse/utils/constants.dart';
 import 'package:twitterverse/utils/secret.dart';
 
@@ -26,28 +27,41 @@ class _MiniAppsScreenState extends State<MiniAppsScreen> {
                   children: [
                     Material(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
                       type: MaterialType.card,
                       elevation: 2,
-                      child: Container(
-                        color: Colors.grey.withOpacity(.1),
-                        height: 80,
-                        width: 80,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: Image.network(
-                              app['imageUrl'],
-                              height: 80,
-                              width: 80,
-                            ),
-                          )
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      CustomView(app['contentUrl'])));
+                        },
+                        child: Container(
+                          color: Colors.grey.withOpacity(.1),
+                          height: 80,
+                          width: 80,
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: Image.network(
+                                  app['imageUrl'],
+                                  height: 80,
+                                  width: 80,
+                                ),
+                              )),
                         ),
                       ),
                     ),
-                    Text(app['name'], overflow: TextOverflow.ellipsis,)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        app['name'],
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -59,7 +73,7 @@ class _MiniAppsScreenState extends State<MiniAppsScreen> {
   checkSquareSetUp() async {
     prefs = await SharedPreferences.getInstance();
 
-    bool isSetUp = prefs.getBool("SQURE") ?? false;
+    bool isSetUp = prefs.getBool("SQUARE") ?? false;
     // isSetUp = false;
     if (!isSetUp) {
       await InAppPayments.setSquareApplicationId(SQUARE_APP_ID);

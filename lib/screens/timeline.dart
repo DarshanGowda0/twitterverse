@@ -120,7 +120,8 @@ class _TimelineState extends State<Timeline> {
 
   void _fetchData() async {
     String url = "https://api.twitter.com/1.1/search/tweets.json";
-    String query = "from:washingtonpost&count=5&has=links";
+    String query = "from:nytimes+OR+from:washingtonpost+OR+from:Medium&count=15&has=links";
+    // https://api.twitter.com/1.1/search/tweets.json?q=from:FoxNews+OR+from:washingtonpost&has=links&count=10
     var data = await ApiService.getAllTweets("$url?q=$query");
     var listOfTweets = data['statuses'];
     List<Tweet> allTweets = [];
