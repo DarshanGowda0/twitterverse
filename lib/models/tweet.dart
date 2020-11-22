@@ -23,6 +23,8 @@ class Tweet {
       this.retweetCount,
       this.url) {
     this.tweetBody ??= '';
+    this.url ??= '';
+    this.userImageUrl ??= '';
   }
 
   factory Tweet.from(json) => Tweet.data(
@@ -42,10 +44,8 @@ class Tweet {
     var postedAt = DateFormat('E MMM d H:m:s y').parse(
         this.createdAt.substring(0, this.createdAt.indexOf("+")) +
             this.createdAt.substring(this.createdAt.length - 4));
-    print(postedAt);
     var now = DateTime.now();
     Duration difference = now.difference(postedAt);
-    print(difference);
     if (difference.inDays.abs() > 0) {
       return "${difference.inDays.abs()}d";
     }
@@ -59,5 +59,16 @@ class Tweet {
       return "${difference.inSeconds.abs()}s";
     }
     return "";
+  }
+}
+
+class SuperTweet {
+  Tweet tweet;
+  String metaUrl;
+  String metaTitle;
+
+  SuperTweet(this.tweet, this.metaUrl, this.metaTitle) {
+    this.metaTitle ??= '';
+    this.metaUrl ??= '';
   }
 }

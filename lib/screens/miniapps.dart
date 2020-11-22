@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:square_in_app_payments/in_app_payments.dart';
 import 'package:square_in_app_payments/models.dart';
+import 'package:twitterverse/utils/constants.dart';
 import 'package:twitterverse/utils/secret.dart';
 
 class MiniAppsScreen extends StatefulWidget {
@@ -10,19 +11,56 @@ class MiniAppsScreen extends StatefulWidget {
 }
 
 class _MiniAppsScreenState extends State<MiniAppsScreen> {
-
   SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: GridView.count(
+          crossAxisCount: 3,
+          children: MINI_APPS.map((app) {
+            return Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Material(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16))
+                      ),
+                      type: MaterialType.card,
+                      elevation: 2,
+                      child: Container(
+                        color: Colors.grey.withOpacity(.1),
+                        height: 80,
+                        width: 80,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network(
+                              app['imageUrl'],
+                              height: 80,
+                              width: 80,
+                            ),
+                          )
+                        ),
+                      ),
+                    ),
+                    Text(app['name'], overflow: TextOverflow.ellipsis,)
+                  ],
+                ),
+              ),
+            );
+          }).toList()),
+    );
   }
 
   checkSquareSetUp() async {
     prefs = await SharedPreferences.getInstance();
 
-    bool isSetUp = prefs.getBool("SQURE")?? false;
-    isSetUp = false;
+    bool isSetUp = prefs.getBool("SQURE") ?? false;
+    // isSetUp = false;
     if (!isSetUp) {
       await InAppPayments.setSquareApplicationId(SQUARE_APP_ID);
       _onStartCardEntryFlow();
