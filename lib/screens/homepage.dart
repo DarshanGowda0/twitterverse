@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitterverse/models/tweet.dart';
 import 'package:twitterverse/utils/service.dart';
 
+import 'miniapps.dart';
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
 
@@ -13,6 +15,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var imageUrl =
       "https://pbs.twimg.com/profile_images/1289028088173432832/0WOMdOw9_400x400.jpg";
+
+  int curIdx = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: Timeline(),
+        child: curIdx == 3 ? MiniAppsScreen() : Timeline(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -85,9 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
           label: 'DM',
         ),
       ],
-      currentIndex: 0,
+      currentIndex: curIdx,
       selectedItemColor: Colors.lightBlue,
-      onTap: (idx) {},
+      onTap: (idx) {
+        setState(() {
+          curIdx = idx;
+        });
+      },
     );
   }
 }
@@ -147,8 +155,7 @@ class _TimelineState extends State<Timeline> {
         tweet.tweetBody,
         maxLines: 5,
         overflow: TextOverflow.ellipsis,
-        style:
-            TextStyle(fontFamily: 'OpenSans', fontSize: 14),
+        style: TextStyle(fontFamily: 'OpenSans', fontSize: 14),
       ),
     );
   }
