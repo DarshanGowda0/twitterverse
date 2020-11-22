@@ -50,12 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: curIdx == 3 ? MiniAppsScreen() : Timeline(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (ctx) => CustomView("https://nytimes.com")));
-        },
+        onPressed: () {},
         tooltip: 'Increment',
         child: Icon(
           Icons.add,
